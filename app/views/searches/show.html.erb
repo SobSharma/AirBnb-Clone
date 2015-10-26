@@ -1,0 +1,47 @@
+<div class="container container_borer ">
+  <div class="row">
+    <div class="col-xs-12 col-sm-8 boxes_container">
+      <div class="row">
+
+        <% @final.each do |a| %>
+          <div class="col-xs-12 col-sm-6 box_result">
+
+           <div class="box_image">
+            <H4 class="price-image"> <%= a.property.price_night %>€/day </H4>
+          <H3><%= link_to "B", new_search_property_booking_path(search_id: @search, property_id: a.property), class: "book-image" %></H3>
+
+           </div>
+
+           <div>
+            <H4> <%= a.property.name %> </H4>
+            <p> <%= a.property.country %> at <%= a.property.beach_name %></p>
+
+           </div>
+          </div>
+
+        <% end %>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-4 search_map">
+      <div id="map" style="width: 100%; height: 600px;"></div>
+
+<% content_for(:after_js) do %>
+  <%= javascript_tag do %>
+    $(document).on('ready', function() {
+      handler = Gmaps.build('Google');
+      handler.buildMap({ internal: { id: 'map' } }, function(){
+        markers = handler.addMarkers(<%= raw @markers.to_json %>);
+        handler.bounds.extendWith(markers);
+        handler.fitMapToBounds();
+      });
+    })
+  <% end %>
+<% end %>
+    </div>
+
+
+</div>
+</div>
+
+
